@@ -15,6 +15,7 @@ func get(o Options) (Response, error) {
 	}
 
 	if o.Proxies == "" {
+
 	} else {
 		ts := &http.Transport{Proxy: func(_ *http.Request) (*url.URL, error) {
 			return url.Parse(o.Proxies)
