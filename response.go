@@ -4,12 +4,23 @@ import (
 	"compress/gzip"
 	"io"
 	"io/ioutil"
+	"net/http"
 	"strings"
 )
 
-// 获取报文的文本内容
-func (R gsessionResponse) Text() string {
-	r := R.resp
+// 获得 *http.Response 对象
+type gsessionResponse struct {
+	resp *http.Response
+}
+
+// interface接口, 模拟 gsessionResponse
+type Response interface {
+	Text() string
+	Content() []uint8
+}
+
+func (g gsessionResponse) Text() string {
+	r := g.resp
 	defer r.Body.Close()
 
 	var reader io.ReadCloser
@@ -23,16 +34,11 @@ func (R gsessionResponse) Text() string {
 	if err != nil {
 		return ""
 	}
-	//s := string(b)
-	//return ConvertToString(s, "utf-8", "utf-8")
-	//return ConvertByte2String(b, HZGB2312)
-	//return mahonia.NewEncoder("utf-8").ConvertString(s)
 	return string(b)
 }
 
-// 获得字节流报文
-func (R gsessionResponse) Content() []uint8 {
-	r := R.resp
+func (g gsessionResponse) Content() []uint8 {
+	r := g.resp
 	defer r.Body.Close()
 	b, err := ioutil.ReadAll(r.Body)
 	if err != nil {
