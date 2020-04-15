@@ -1,12 +1,18 @@
 package gsession
 
 import (
+	"fmt"
 	"net/http"
 	"net/url"
 	"time"
 )
 
 func (g gsob) GET(o Options) (Response, error) {
+	if len(COOKIEJ) == 0 {
+		fmt.Println("Cookies 为空")
+	} else {
+		fmt.Printf("Cookies 不为空, %v\n", COOKIEJ)
+	}
 	c := &http.Client{}
 	if o.Timeout == (0 * time.Second) {
 		c.Timeout = 10 * time.Second
