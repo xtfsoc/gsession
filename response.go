@@ -8,7 +8,7 @@ import (
 )
 
 // 获取报文的文本内容
-func (R response) Text() string {
+func (R gsessionResponse) Text() string {
 	r := R.resp
 	defer r.Body.Close()
 
@@ -31,7 +31,7 @@ func (R response) Text() string {
 }
 
 // 获得字节流报文
-func (R response) Content() []uint8 {
+func (R gsessionResponse) Content() []uint8 {
 	r := R.resp
 	defer r.Body.Close()
 	b, err := ioutil.ReadAll(r.Body)

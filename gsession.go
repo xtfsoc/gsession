@@ -7,6 +7,10 @@ import (
 	"time"
 )
 
+func init() {
+	COOKIEJ = make(map[string]string)
+}
+
 func Request(o Options) (Response, error) {
 	// 设置默认抓取超时时间
 	if (0 * time.Second) == o.Timeout {

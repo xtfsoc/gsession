@@ -32,11 +32,29 @@ func get(o Options) (Response, error) {
 		req.Header.Add(k, v)
 	}
 
-	resp, err := c.Do(req)
+	response, err := c.Do(req)
 	if err != nil {
 		return nil, err
 	}
+
+	cookies := response.Cookies()
+	setCookie(cookies)
+
 	var r Response
-	r = response{resp: resp}
+	r = gsessionResponse{resp: response}
 	return r, nil
+}
+
+/*
+通用setCookie
+*/
+func setCookie(c []*http.Cookie) {
+
+	for _, v := range c {
+		// v: *http.Cookie
+		//fmt.Println("v.Value:", v.Value)
+		//fmt.Println("v.Domain:", v.Domain) // string
+		//fmt.Println("v.MaxAge:", v.MaxAge) // int
+		COOKIEJ[v.Name] = v.Value
+	}
 }
