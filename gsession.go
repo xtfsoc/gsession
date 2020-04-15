@@ -10,6 +10,8 @@ type session struct {
 }
 
 func Session() session {
+	// 新增session要清空COOKIEJ
+	COOKIEJ = make(map[string]string)
 	return session{sessionInit(), Cookie{}}
 }
 
@@ -19,11 +21,10 @@ type gsessionObject interface {
 	PUT(o Options) (Response, error)
 	DELETE(o Options) (Response, error)
 	OPTIONS(o Options) (Response, error)
-	//GetAllCookies() map[string]string
+	// GetAllCookies() map[string]string
 }
 
-type gsob struct {
-}
+type gsob struct{}
 
 func sessionInit() gsessionObject {
 	var obj gsessionObject

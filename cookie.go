@@ -17,6 +17,6 @@ type Cookie struct{}
 /*
 获取全部cookies
 */
-func (c *Cookie) GetAll() map[string]string {
+func (c *Cookie) GetAllq() map[string]string {
 	return COOKIEJ
 }
