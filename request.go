@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func get(o Options) (Response, error) {
+func (g gessionObject) GET(o Options) (Response, error) {
 	c := &http.Client{}
 	if o.Timeout == (0 * time.Second) {
 		c.Timeout = 10 * time.Second
@@ -45,16 +45,18 @@ func get(o Options) (Response, error) {
 	return r, nil
 }
 
-/*
-通用setCookie
-*/
-func setCookie(c []*http.Cookie) {
+func (g gessionObject) POST(o Options) (Response, error) {
+	panic("implement me")
+}
 
-	for _, v := range c {
-		// v: *http.Cookie
-		//fmt.Println("v.Value:", v.Value)
-		//fmt.Println("v.Domain:", v.Domain) // string
-		//fmt.Println("v.MaxAge:", v.MaxAge) // int
-		COOKIEJ[v.Name] = v.Value
-	}
+func (g gessionObject) PUT(o Options) (Response, error) {
+	panic("implement me")
+}
+
+func (g gessionObject) DELETE(o Options) (Response, error) {
+	panic("implement me")
+}
+
+func (g gessionObject) OPTIONS(o Options) (Response, error) {
+	panic("implement me")
 }
