@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func (g gsob) GET(o Options) (Response, error) {
+func (g gsessionObject) GET(o Options) (Response, error) {
 	c := &http.Client{}
 	if o.Timeout == (0 * time.Second) {
 		c.Timeout = 10 * time.Second
@@ -59,19 +59,19 @@ func (g gsob) GET(o Options) (Response, error) {
 	return r, nil
 }
 
-func (g gsob) POST(o Options) (Response, error) {
+func (g gsessionObject) POST(o Options) (Response, error) {
 	panic("implement me")
 }
 
-func (g gsob) PUT(o Options) (Response, error) {
+func (g gsessionObject) PUT(o Options) (Response, error) {
 	panic("implement me")
 }
 
-func (g gsob) DELETE(o Options) (Response, error) {
+func (g gsessionObject) DELETE(o Options) (Response, error) {
 	panic("implement me")
 }
 
-func (g gsob) OPTIONS(o Options) (Response, error) {
+func (g gsessionObject) OPTIONS(o Options) (Response, error) {
 	panic("implement me")
 }
 

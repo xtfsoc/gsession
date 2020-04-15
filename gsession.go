@@ -5,17 +5,23 @@ func init() {
 }
 
 type session struct {
-	gsessionObject
-	Cookie //组合People
+	Cookie Cookie
+	gsessionAction
 }
 
 func Session() session {
 	// 新增session要清空COOKIEJ
 	COOKIEJ = make(map[string]string)
-	return session{sessionInit(), Cookie{}}
+
+	sessionInit := func() gsessionAction {
+		var ga gsessionAction
+		ga = gsessionObject{}
+		return ga
+	}
+	return session{Cookie{}, sessionInit()}
 }
 
-type gsessionObject interface {
+type gsessionAction interface {
 	GET(o Options) (Response, error)
 	POST(o Options) (Response, error)
 	PUT(o Options) (Response, error)
@@ -24,10 +30,10 @@ type gsessionObject interface {
 	// GetAllCookies() map[string]string
 }
 
-type gsob struct{}
+type gsessionObject struct{}
 
-func sessionInit() gsessionObject {
-	var obj gsessionObject
-	obj = gsob{}
-	return obj
-}
+//func sessionInit() gsessionAction {
+//	var ga gsessionAction
+//	ga = gsessionObject{}
+//	return ga
+//}
