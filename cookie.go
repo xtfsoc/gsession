@@ -20,3 +20,7 @@ type Cookie struct{}
 func (c *Cookie) GetAll() map[string]string {
 	return COOKIEJ
 }
+
+/*
+增加cookie
+*/
