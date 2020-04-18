@@ -59,3 +59,6 @@ session := gsession.Session()
 session.Proxy.Update("htpsss:////sdsdsdd")
 session.Cookie.GetAll()
 ```
+
+
+加版本
