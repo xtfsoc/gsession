@@ -24,8 +24,10 @@ func (g gsessionResponse) Text() string {
 	defer r.Body.Close()
 
 	var reader io.ReadCloser
-	if strings.Contains(strings.ToLower(r.Header.Get("Content-Encoding")), "gzip") {
+	var ce = r.Header.Get("Content-Encoding")
+	if strings.Contains(strings.ToLower(ce), "gzip") {
 		reader, _ = gzip.NewReader(r.Body)
+
 	} else {
 		reader = r.Body
 	}
@@ -35,6 +37,8 @@ func (g gsessionResponse) Text() string {
 		return ""
 	}
 	return string(b)
+	//return ConvertByte2String(b, GBK)
+
 }
 
 func (g gsessionResponse) Content() []uint8 {

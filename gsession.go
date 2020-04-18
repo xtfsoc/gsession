@@ -1,11 +1,15 @@
 package gsession
 
+import "fmt"
+
 func init() {
 	COOKIEJ = make(map[string]string)
+	fmt.Println("gsession默认init()方法")
 }
 
 type session struct {
-	Cookie Cookie
+	Proxy  proxy
+	Cookie cookie
 	gsessionAction
 }
 
@@ -18,7 +22,7 @@ func Session() session {
 		ga = gsessionObject{}
 		return ga
 	}
-	return session{Cookie{}, sessionInit()}
+	return session{proxy{}, cookie{}, sessionInit()}
 }
 
 type gsessionAction interface {

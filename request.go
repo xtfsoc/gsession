@@ -3,10 +3,13 @@ package gsession
 import (
 	"net/http"
 	"net/url"
+	"strings"
 	"time"
 )
 
 func (g gsessionObject) GET(o Options) (Response, error) {
+	o = processHeader(o)
+
 	c := &http.Client{}
 	if o.Timeout == (0 * time.Second) {
 		c.Timeout = 10 * time.Second
@@ -80,8 +83,27 @@ func (g gsessionObject) OPTIONS(o Options) (Response, error) {
 */
 func setCookie(c []*http.Cookie) {
 	for _, v := range c {
-		// v: *http.Cookie
+		// v: *http.cookie
 		// v.Value/v.Domain
 		COOKIEJ[v.Name] = v.Value
 	}
+}
+
+/*
+通用处理头部信息
+1. Accept-Encoding: 暂不支持br, 要把它拿掉, 按照顺位原则br -> gzip -> deflate
+*/
+func processHeader(o Options) Options {
+	var header map[string]string = o.Headers
+	var key string
+	for k, _ := range header {
+		if strings.EqualFold(k, "accept-encoding") {
+			key = k
+		}
+	}
+	delete(header, key)
+	header["Accept-Encoding"] = "gzip, deflate"
+
+	o.Headers = header
+	return o
 }
