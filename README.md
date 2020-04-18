@@ -3,7 +3,6 @@ A simple HTTP library
 
 
 #### 需要解决的问题
-
 - golang HTTP Response Body的内存泄漏问题
 https://blog.csdn.net/hello_ufo/article/details/92994573
 
@@ -12,7 +11,7 @@ https://blog.csdn.net/hello_ufo/article/details/92994573
 
 
 
-#### Example:
+#### Example1:
 
 ```go
 //options := gsession.Options{}
@@ -62,3 +61,27 @@ session.Cookie.GetAll()
 
 
 加版本
+
+
+#### Example2:
+
+```go
+session := gsession.Session()
+session.Proxy.Update("http://127.0.0.1:8888")
+cookie := make(map[string]string)
+cookie["name"] = "wanghui"
+cookie["age"] = "24"
+session.Cookie.Update(cookie)
+
+header := make(map[string]string)
+header["Connection"] = "keep-alive"
+header["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.92 Safari/537.3"
+header["accept-encoding"] = "gzip, deflate, br"
+header["Accept-Language"] = "zh-CN,zh;q=0.9,en;q=0.8"
+
+resp, _ := session.GET("https://www.baidu.com/", header, true)
+_, _ = session.GET("https://www.baidu.com/", header, true)
+
+fmt.Println(resp.Text())
+fmt.Println(session.Cookie.GetMap())
+```

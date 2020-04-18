@@ -1,6 +1,9 @@
 package gsession
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func init() {
 	COOKIEJ = make(map[string]string)
@@ -26,7 +29,7 @@ func Session() session {
 }
 
 type gsessionAction interface {
-	GET(o Options) (Response, error)
+	GET(url string, headers map[string]string, redirect bool, timeout ...time.Duration) (Response, error)
 	POST(o Options) (Response, error)
 	PUT(o Options) (Response, error)
 	DELETE(o Options) (Response, error)

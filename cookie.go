@@ -1,7 +1,5 @@
 package gsession
 
-import "fmt"
-
 /*
 cookie的生命周期管理
 1. update(map[string]string) 更新cookie
@@ -20,8 +18,14 @@ type cookie struct{}
 获取全部cookies
 */
 func (c *cookie) GetMap() map[string]string {
-	fmt.Println("GetALL:", PROXY)
 	return COOKIEJ
+}
+
+/*
+添加cookie, 等同于更新cookie
+*/
+func (c *cookie) Add(cookie map[string]string) {
+	COOKIEJ = cookie
 }
 
 /*
@@ -29,6 +33,13 @@ func (c *cookie) GetMap() map[string]string {
 原则: 已有的key覆盖掉, 换成新的值
 没有的值加上
 */
-func (c *cookie) Update(ckj map[string]string) {
-	COOKIEJ = ckj
+func (c *cookie) Update(cookie map[string]string) {
+	COOKIEJ = cookie
+}
+
+/*
+清空cookie
+*/
+func (c *cookie) Clear() {
+	COOKIEJ = make(map[string]string)
 }
