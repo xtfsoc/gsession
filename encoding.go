@@ -14,7 +14,7 @@ const (
 	HZGB2312 = Charset("HZGB2312")
 )
 
-// 调用 fmt.Printf("%s\n", ConvertByte2String(stdoutStderr, GB18030))1
+// 调用 fmt.Printf("%s\n", ConvertByte2String(stdoutStderr, GB18030))
 func ConvertByte2String(b []byte, charset Charset) string {
 	var s string
 	switch charset {
