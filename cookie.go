@@ -19,8 +19,7 @@ type cookie struct{}
 /*
 获取全部cookies
 */
-func (c *cookie) GetAll() map[string]string {
-
+func (c *cookie) GetMap() map[string]string {
 	fmt.Println("GetALL:", PROXY)
 	return COOKIEJ
 }

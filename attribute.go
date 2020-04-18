@@ -8,7 +8,6 @@ type Options struct {
 	Mode      string
 	Headers   map[string]string
 	Data      string
-	Proxies   string
 	Redirects bool
 	Timeout   time.Duration
 }

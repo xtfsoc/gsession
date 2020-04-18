@@ -17,11 +17,11 @@ func (g gsessionObject) GET(o Options) (Response, error) {
 		c.Timeout = o.Timeout
 	}
 
-	if o.Proxies == "" {
+	if PROXY == "" {
 
 	} else {
 		ts := &http.Transport{Proxy: func(_ *http.Request) (*url.URL, error) {
-			return url.Parse(o.Proxies)
+			return url.Parse(PROXY)
 		}}
 		c.Transport = ts
 	}
