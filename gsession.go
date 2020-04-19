@@ -2,6 +2,7 @@ package gsession
 
 import (
 	"fmt"
+	"io"
 	"time"
 )
 
@@ -30,7 +31,7 @@ func Session() session {
 
 type gsessionAction interface {
 	GET(url string, headers map[string]string, redirect bool, timeout ...time.Duration) (Response, error)
-	POST(o Options) (Response, error)
+	POST(url string, headers map[string]string, body io.Reader, redirect bool, timeout ...time.Duration) (Response, error)
 	PUT(o Options) (Response, error)
 	DELETE(o Options) (Response, error)
 	OPTIONS(o Options) (Response, error)

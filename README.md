@@ -63,25 +63,60 @@ session.Cookie.GetAll()
 加版本
 
 
-#### Example2:
+#### Example:
 
 ```go
-session := gsession.Session()
-session.Proxy.Update("http://127.0.0.1:8888")
-cookie := make(map[string]string)
-cookie["name"] = "wanghui"
-cookie["age"] = "24"
-session.Cookie.Update(cookie)
+func ExampleGET() {
+	session := gsession.Session()
+	session.Proxy.Update("http://127.0.0.1:8888")
+	session.Cookie.Add(map[string]string{"name":"wanghui", "age":"24"})
 
-header := make(map[string]string)
-header["Connection"] = "keep-alive"
-header["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.92 Safari/537.3"
-header["accept-encoding"] = "gzip, deflate, br"
-header["Accept-Language"] = "zh-CN,zh;q=0.9,en;q=0.8"
+	header := make(map[string]string)
+	header["Connection"] = "keep-alive"
+	header["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.92 Safari/537.3"
+	header["accept-encoding"] = "gzip, deflate, br"
+	header["Accept-Language"] = "zh-CN,zh;q=0.9,en;q=0.8"
 
-resp, _ := session.GET("https://www.baidu.com/", header, true)
-_, _ = session.GET("https://www.baidu.com/", header, true)
 
-fmt.Println(resp.Text())
-fmt.Println(session.Cookie.GetMap())
+	resp, err := session.GET("https://www.zhihu.com/", header, true, (1 * time.Second))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	//_, _ = session.GET("https://www.baidu.com/", header, true)
+
+	fmt.Println(resp.Text())
+	fmt.Println(session.Cookie.GetMap())
+	//_, _ = session.GET(options)
+}
+
+func ExamplePOST() {
+	session := gsession.Session()
+	session.Proxy.Update("")
+	session.Cookie.Add(map[string]string{"name":"wanghui", "age":"24"})
+
+	header := make(map[string]string)
+	header["Connection"] = "keep-alive"
+	header["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.92 Safari/537.3"
+	header["accept-encoding"] = "gzip, deflate, br"
+	header["Accept-Language"] = "zh-CN,zh;q=0.9,en;q=0.8"
+
+	body := strings.NewReader("{\"sensor_data\":\"7a74G7m23Vrp0o5c9094051.421,2,-94,-118,199217-1,2,-94,-121,;1;2;0\"}")
+	resp, err := session.POST("https://www.baidu.com/", header, body, true)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(resp.Content())
+	fmt.Println(resp.Text()[0:10])
+	fmt.Println(resp.GetCookies())
+
+	resp, err = session.GET("https://www.baidu.com/", header, true)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(resp.Content())
+	fmt.Println(resp.Text()[0:10])
+	fmt.Println(resp.GetCookies())
+}
 ```
