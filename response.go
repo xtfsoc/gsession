@@ -24,7 +24,7 @@ func (g *gsessionResponse) Text() string {
 
 }
 
-func (g *gsessionResponse) Content() []uint8 {
+func (g *gsessionResponse) Content() []byte {
 	return g.bytes
 }
 

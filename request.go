@@ -66,7 +66,17 @@ import (
 //}
 
 func (g gsessionObject) GET(url string, headers map[string]string, redirect bool, timeouts ...time.Duration) (Response, error) {
-	c := &http.Client{}
+	var c *http.Client
+	if redirect {
+		c = &http.Client{}
+	} else {
+		c = &http.Client{
+			CheckRedirect: func(req *http.Request, via []*http.Request) error {
+				//return errors.New("Disable redirects")
+				return http.ErrUseLastResponse
+			},
+		}
+	}
 
 	// 处理各种参数
 	headers = processHeader(headers)
@@ -128,7 +138,19 @@ func (g gsessionObject) GET(url string, headers map[string]string, redirect bool
 }
 
 func (g gsessionObject) POST(url string, headers map[string]string, body io.Reader, redirect bool, timeouts ...time.Duration) (Response, error) {
-	c := &http.Client{}
+
+	// 处理重定向
+	var c *http.Client
+	if redirect {
+		c = &http.Client{}
+	} else {
+		c = &http.Client{
+			CheckRedirect: func(req *http.Request, via []*http.Request) error {
+				//return errors.New("Disable redirects")
+				return http.ErrUseLastResponse
+			},
+		}
+	}
 
 	// 处理各种参数
 	headers = processHeader(headers)
