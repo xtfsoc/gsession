@@ -117,11 +117,13 @@ func (g gsessionObject) GET(url string, headers map[string]string, redirect bool
 	if err != nil {
 		return nil, err
 	}
+	if resp != nil {
+		defer resp.Body.Close()
+	}
 
 	cookies := resp.Cookies()
 	setCookie(cookies)
 
-	defer resp.Body.Close()
 	var reader io.ReadCloser
 	var encode = resp.Header.Get("Content-Encoding")
 	if strings.Contains(strings.ToLower(encode), "gzip") {
@@ -196,10 +198,13 @@ func (g gsessionObject) POST(url string, headers map[string]string, body io.Read
 		return nil, err
 	}
 
+	if resp != nil {
+		defer resp.Body.Close()
+	}
+
 	cookies := resp.Cookies()
 	setCookie(cookies)
 
-	defer resp.Body.Close()
 	var reader io.ReadCloser
 	var encode = resp.Header.Get("Content-Encoding")
 	if strings.Contains(strings.ToLower(encode), "gzip") {
