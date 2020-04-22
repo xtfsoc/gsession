@@ -149,7 +149,7 @@ func (g gsessionObject) GET(url string, headers map[string]string, redirect bool
 	b, err := ioutil.ReadAll(reader)
 
 	var r Response
-	r = &gsessionResponse{text: string(b), bytes: b, cookies: cookies}
+	r = &gsessionResponse{text: string(b), bytes: b, cookies: cookies, statusCode: resp.StatusCode}
 	return r, nil
 }
 
@@ -238,7 +238,7 @@ func (g gsessionObject) POST(url string, headers map[string]string, body io.Read
 	b, err := ioutil.ReadAll(reader)
 
 	var r Response
-	r = &gsessionResponse{text: string(b), bytes: b, cookies: cookies}
+	r = &gsessionResponse{text: string(b), bytes: b, cookies: cookies, statusCode: resp.StatusCode}
 	return r, nil
 
 }
