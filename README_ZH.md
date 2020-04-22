@@ -1,8 +1,6 @@
 # gsession
 A simple HTTP library
 
-[中文文档](README_ZH.md)
-
 
 #### 需要解决的问题
 - golang HTTP Response Body的内存泄漏问题
