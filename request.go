@@ -208,6 +208,9 @@ func (g gsessionObject) POST(url string, headers map[string]string, body io.Read
 		// 有本地cookie, 自动加入
 		for i := 0; i < len(keys); i++ {
 			v, _ := cookiej.Load(keys[i])
+			if v == nil {
+				return nil, errors.New(fmt.Sprintf("添加Cookie失败, 值为空: %v\n", v))
+			}
 			req.AddCookie(&http.Cookie{Name: keys[i], Value: v.(string)})
 		}
 	}
