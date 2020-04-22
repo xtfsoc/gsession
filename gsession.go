@@ -1,14 +1,13 @@
 package gsession
 
 import (
-	"fmt"
 	"io"
 	"time"
 )
 
+// 初始化
 func init() {
 	COOKIEJ = make(map[string]string)
-	fmt.Println("gsession默认init()方法")
 }
 
 type session struct {
