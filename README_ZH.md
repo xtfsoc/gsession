@@ -23,7 +23,9 @@ import "github.com/wanghuijz/gsession"
 
 #### Examples
 
-* [Example GET](#Example GET)
+
+
+
 
 
 
@@ -59,8 +61,8 @@ import "github.com/wanghuijz/gsession"
   session := gsession.Session()
   
   // 不启用代理的方式:
-  // 1. session.Proxy.Update("")
-  // 2. 直接注释掉
+  // 1. 直接注释掉
+  // 2. session.Proxy.Update("")
   session.Proxy.Update("http://127.0.0.1:8888")
   
   // 自定义添加Cookie

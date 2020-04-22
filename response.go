@@ -14,7 +14,7 @@ type gsessionResponse struct {
 // interface接口, 模拟 gsessionResponse
 type Response interface {
 	Text() string
-	Content() []uint8
+	Content() []byte
 	GetCookies() []*http.Cookie
 }
 
