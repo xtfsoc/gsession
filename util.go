@@ -39,7 +39,7 @@ func setCookie(c []*http.Cookie) {
 }
 
 /*
-处理超时参数
+处理超时参数, 默认60s
 */
 func processTimeout(ts []time.Duration) (time.Duration, error) {
 	if len(ts) == 0 {

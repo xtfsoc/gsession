@@ -38,7 +38,7 @@ func typeB() {
 	//header["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.92 Safari/537.3"
 	//header["accept-encoding"] = "gzip, deflate, br"
 	//header["Accept-Language"] = "zh-CN,zh;q=0.9,en;q=0.8"
-	//options := gsession.Options{
+	//options := gsession.options{
 	//	Url:       "https://www.zhihu.com",
 	//	Mode:      "get",
 	//	Headers:   header,

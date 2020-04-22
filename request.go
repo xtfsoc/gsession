@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-//func (g gsessionObject) GET(o Options) (Response, error) {
+//func (g gsessionObject) GET(o options) (Response, error) {
 //	o = processHeader(o)
 //
 //	c := &http.Client{}
@@ -221,14 +221,14 @@ func (g gsessionObject) POST(url string, headers map[string]string, body io.Read
 
 }
 
-func (g gsessionObject) PUT(o Options) (Response, error) {
+func (g gsessionObject) PUT(o options) (Response, error) {
 	panic("implement me")
 }
 
-func (g gsessionObject) DELETE(o Options) (Response, error) {
+func (g gsessionObject) DELETE(o options) (Response, error) {
 	panic("implement me")
 }
 
-func (g gsessionObject) OPTIONS(o Options) (Response, error) {
+func (g gsessionObject) OPTIONS(o options) (Response, error) {
 	panic("implement me")
 }
