@@ -23,7 +23,7 @@ import "github.com/wanghuijz/gsession"
 
 #### Examples
 
-* [ExampleGET](#ExampleGET)
+* [Example GET](#Example GET)
 
 
 
@@ -31,7 +31,7 @@ import "github.com/wanghuijz/gsession"
 
 ----
 
-#### ExampleGET
+#### Example GET
 
 > 完整的GET请求方式, 以baidu.com为例.
 
