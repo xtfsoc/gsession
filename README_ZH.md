@@ -23,7 +23,7 @@ import "github.com/wanghuijz/gsession"
 
 #### Examples
 
-
+* [ExampleGET](#ExampleGET)
 
 
 
@@ -31,7 +31,7 @@ import "github.com/wanghuijz/gsession"
 
 ----
 
-#### Example GET
+#### ExampleGET
 
 > 完整的GET请求方式, 以baidu.com为例.
 
@@ -94,10 +94,13 @@ import "github.com/wanghuijz/gsession"
   // 再次请求, session会自动把上一步链接的setCookie合并请求
   // 如果不想合并请求, 使用 session.Cookie.Clear()
   session.Cookie.Add(map[string]string{"name":"tom", "age":"24"})
-  _, _ = session.GET("https://www.baidu.com/", header, true)
+  resp, _ = session.GET("https://www.baidu.com/", header, true)
   
+  // 获取响应体文本 -> string
   fmt.Println(resp.Text())
+  // 获取相应体字节
   fmt.Println(resp.Content())
+  // 获得本次请求的setCookie
   fmt.Println(resp.GetCookies())
   ```
 
