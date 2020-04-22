@@ -23,7 +23,7 @@ import "github.com/wanghuijz/gsession"
 
 #### Examples
 
-* [Example GET](#Examples GET)
+* [Example GET](#Example GET)
 
 
 
