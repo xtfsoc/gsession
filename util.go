@@ -34,7 +34,8 @@ func setCookie(c []*http.Cookie) {
 		// v: *http.cookie
 		// v.Value
 		// v.Domain
-		COOKIEJ[v.Name] = v.Value
+		//cookiej[v.Name] = v.Value
+		cookiej.Store(v.Name, v.Value)
 	}
 }
 

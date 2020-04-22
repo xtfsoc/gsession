@@ -6,9 +6,9 @@ import (
 )
 
 // 初始化
-func init() {
-	COOKIEJ = make(map[string]string)
-}
+//func init() {
+//	cookiej = make(map[string]string)
+//}
 
 type session struct {
 	Proxy  proxy
@@ -18,7 +18,16 @@ type session struct {
 
 func Session() session {
 	// 新增session要清空COOKIEJ
-	COOKIEJ = make(map[string]string)
+	var keys []string
+	f := func(k, v interface{}) bool {
+		keys = append(keys, k.(string))
+		return true
+	}
+	cookiej.Range(f)
+
+	for i := 0; i < len(keys); i++ {
+		cookiej.Delete(keys[i])
+	}
 
 	sessionInit := func() gsessionAction {
 		var ga gsessionAction

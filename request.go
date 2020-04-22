@@ -2,6 +2,8 @@ package gsession
 
 import (
 	"compress/gzip"
+	"errors"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -39,11 +41,11 @@ import (
 //	}
 //
 //	// 判断是否有本地cookie
-//	if len(COOKIEJ) == 0 {
+//	if len(cookiej) == 0 {
 //
 //	} else {
 //		// 有本地cookie, 自动加入
-//		for k, v := range COOKIEJ {
+//		for k, v := range cookiej {
 //			var mycookie = &http.Cookie{
 //				Name:  k,
 //				Value: v,
@@ -105,11 +107,23 @@ func (g gsessionObject) GET(url string, headers map[string]string, redirect bool
 	}
 
 	// 判断是否有本地cookie
-	if len(COOKIEJ) == 0 {
+	var keys []string
+	f := func(k, v interface{}) bool {
+		keys = append(keys, k.(string))
+		return true
+	}
+	cookiej.Range(f)
+
+	if len(keys) == 0 {
+
 	} else {
 		// 有本地cookie, 自动加入
-		for k, v := range COOKIEJ {
-			req.AddCookie(&http.Cookie{Name: k, Value: v})
+		for i := 0; i < len(keys); i++ {
+			v, _ := cookiej.Load(keys[i])
+			if v == nil {
+				return nil, errors.New(fmt.Sprintf("添加Cookie失败, 值为空: %v\n", v))
+			}
+			req.AddCookie(&http.Cookie{Name: keys[i], Value: v.(string)})
 		}
 	}
 
@@ -181,15 +195,20 @@ func (g gsessionObject) POST(url string, headers map[string]string, body io.Read
 	}
 
 	// 判断是否有本地cookie
-	if len(COOKIEJ) == 0 {
+	var keys []string
+	f := func(k, v interface{}) bool {
+		keys = append(keys, k.(string))
+		return true
+	}
+	cookiej.Range(f)
+
+	if len(keys) == 0 {
+
 	} else {
 		// 有本地cookie, 自动加入
-		for k, v := range COOKIEJ {
-			var mycookie = &http.Cookie{
-				Name:  k,
-				Value: v,
-			}
-			req.AddCookie(mycookie)
+		for i := 0; i < len(keys); i++ {
+			v, _ := cookiej.Load(keys[i])
+			req.AddCookie(&http.Cookie{Name: keys[i], Value: v.(string)})
 		}
 	}
 
