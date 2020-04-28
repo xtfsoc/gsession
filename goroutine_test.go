@@ -87,3 +87,12 @@ func requestHTTP(sign int) {
 	}
 
 }
+
+func TestIOutil(t *testing.T) {
+	var reader io.ReadCloser
+	fmt.Println(reader)
+	_, err := ioutil.ReadAll(reader)
+	if err != nil {
+		fmt.Println(err)
+	}
+}

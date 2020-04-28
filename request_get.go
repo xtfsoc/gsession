@@ -2,6 +2,8 @@ package gsession
 
 import (
 	"compress/gzip"
+	"errors"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -65,16 +67,13 @@ func (g gsessionObject) GET(url string, headers map[string]string, redirect bool
 		for i := 0; i < len(keys); i++ {
 			k := keys[i]
 			var v interface{}
-			var ok bool
-			for true {
+			var ok bool = false
+			for !ok {
 				v, ok = cookieSync.Load(k)
-				if ok {
-					break
-				}
 			}
-			// if v == nil {
-			// 	return nil, errors.New(fmt.Sprintf("Failed to add cookie, the value is empty: %v\n", v))
-			// }
+			if v == nil {
+				return nil, errors.New(fmt.Sprintf("Failed to add cookie, the value is empty: %v\n", v))
+			}
 			req.AddCookie(&http.Cookie{Name: keys[i], Value: v.(string)})
 		}
 	}
@@ -86,7 +85,6 @@ func (g gsessionObject) GET(url string, headers map[string]string, redirect bool
 	if resp != nil {
 		defer resp.Body.Close()
 	}
-	defer resp.Body.Close()
 
 	cookies := resp.Cookies()
 	setCookie(cookies)
@@ -94,7 +92,10 @@ func (g gsessionObject) GET(url string, headers map[string]string, redirect bool
 	var reader io.ReadCloser
 	var encode = resp.Header.Get("Content-Encoding")
 	if strings.Contains(strings.ToLower(encode), "gzip") {
-		reader, _ = gzip.NewReader(resp.Body)
+		reader, err = gzip.NewReader(resp.Body)
+		if err != nil {
+			return nil, err
+		}
 	} else {
 		reader = resp.Body
 	}
