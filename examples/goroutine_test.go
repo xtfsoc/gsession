@@ -1,4 +1,4 @@
-package gsession_test
+package examples_test
 
 import (
 	"compress/gzip"
