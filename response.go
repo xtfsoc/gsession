@@ -1,10 +1,7 @@
 package gsession
 
-import (
-	"net/http"
-)
+import "net/http"
 
-// 获得 *http.Response 对象
 type gsessionResponse struct {
 	text       string
 	bytes      []byte
@@ -12,7 +9,6 @@ type gsessionResponse struct {
 	statusCode int
 }
 
-// interface接口, 模拟 gsessionResponse
 type Response interface {
 	Text() string
 	Content() []byte
@@ -21,9 +17,8 @@ type Response interface {
 }
 
 func (g *gsessionResponse) Text() string {
+	// return ConvertByte2String(b, GBK)
 	return g.text
-	//return ConvertByte2String(b, GBK)
-
 }
 
 func (g *gsessionResponse) Content() []byte {

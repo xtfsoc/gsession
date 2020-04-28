@@ -7,12 +7,10 @@ import (
 	"time"
 )
 
-/*
-通用处理头部信息
-1. Accept-Encoding: 暂不支持br, 要把它拿掉, 按照顺位原则br -> gzip -> deflate
-*/
+// General processing header information
+// Accept-Encoding: brotli is not supported yet
+// to remove it, follow the order principle br-> gzip-> deflate
 func processHeader(header map[string]string) map[string]string {
-
 	var key string
 	for k, _ := range header {
 		if strings.EqualFold(k, "accept-encoding") {
@@ -25,23 +23,18 @@ func processHeader(header map[string]string) map[string]string {
 	return header
 }
 
-/*
-通用setCookie
-抓取后的setCookie保存到COOKIEJ
-*/
+// The response cookie is automatically added to the session
 func setCookie(c []*http.Cookie) {
 	for _, v := range c {
 		// v: *http.cookie
 		// v.Value
 		// v.Domain
 		//cookiej[v.Name] = v.Value
-		cookiej.Store(v.Name, v.Value)
+		cookieSync.Store(v.Name, v.Value)
 	}
 }
 
-/*
-处理超时参数, 默认60s
-*/
+// Processing timeout parameter, default 60s
 func processTimeout(ts []time.Duration) (time.Duration, error) {
 	if len(ts) == 0 {
 		return 1 * time.Minute, nil
