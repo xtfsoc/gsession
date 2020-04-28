@@ -10,36 +10,32 @@ import (
 	"strings"
 	"testing"
 	"time"
-	"unsafe"
 )
 
 func TestGoutineGession(t *testing.T) {
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 100; i++ {
 		go requestGession(i)
 	}
-	requestGession(401)
+	time.Sleep(1 * time.Hour)
 }
 
 func requestGession(sign int) {
 	for {
 		session := gsession.Session()
-		fmt.Printf("sign: %d, address: %v\n", sign, unsafe.Pointer(&session))
-		// 	session.Cookie.Update(map[string]string{"name": "wanghui", "age": "22"})
-		//
-		// 	header := make(map[string]string)
-		// 	header["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.92 Safari/537.3"
-		// 	header["accept-encoding"] = "gzip, deflate, br"
-		// 	header["Accept-Language"] = "zh-CN,zh;q=0.9,en;q=0.8"
-		// 	header["Host"] = "www.zhihu.com"
-		//
-		// 	resp, err := session.GET("https://www.zhihu.com/", header, true, (100 * time.Second))
-		// 	if err != nil {
-		// 		fmt.Printf("*ERROR*: %v\n", err)
-		// 		continue
-		// 	}
-		// 	_, err = fmt.Printf("sign: %d, statusCode: %d, text: %s\n", sign, resp.StatusCode(), resp.Text()[100:170])
-		//
-		time.Sleep(4 * time.Second)
+		session.Cookie.Update(map[string]string{"name": "wanghui", "age": "22"})
+
+		header := make(map[string]string)
+		header["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.92 Safari/537.3"
+		header["accept-encoding"] = "gzip, deflate, br"
+		header["Accept-Language"] = "zh-CN,zh;q=0.9,en;q=0.8"
+		header["Host"] = "www.zhihu.com"
+
+		resp, err := session.GET("https://www.zhihu.com/", header, true, (100 * time.Second))
+		if err != nil {
+			fmt.Printf("*ERROR*: %v\n", err)
+			continue
+		}
+		_, err = fmt.Printf("sign: %d, statusCode: %d, text: %s\n", sign, resp.StatusCode(), resp.Text()[100:170])
 	}
 
 }

@@ -99,15 +99,6 @@ func (g gsessionObject) GET(url string, headers map[string]string, redirect bool
 		reader = resp.Body
 	}
 
-	// defer func() {
-	// 	if err := recover(); err != nil {
-	// 		fmt.Printf("===========================%v\n", err)
-	// 	}
-	// }()
-
-	// var w http.ResponseWriter
-	// io.Copy(w, reader)
-
 	b, err := ioutil.ReadAll(reader)
 	if err != nil {
 		return nil, err
