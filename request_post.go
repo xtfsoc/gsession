@@ -94,7 +94,9 @@ func (g gsessionObject) POST(url string, headers map[string]string, body io.Read
 	}
 
 	b, err := ioutil.ReadAll(reader)
-
+	if err != nil {
+		return nil, err
+	}
 	var r Response
 	r = &gsessionResponse{text: string(b), bytes: b, cookies: cookies, statusCode: resp.StatusCode}
 	return r, nil

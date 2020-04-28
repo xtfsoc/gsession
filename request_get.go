@@ -2,8 +2,6 @@ package gsession
 
 import (
 	"compress/gzip"
-	"errors"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -65,10 +63,18 @@ func (g gsessionObject) GET(url string, headers map[string]string, redirect bool
 	} else {
 		// local cookies, automatically add
 		for i := 0; i < len(keys); i++ {
-			v, _ := cookieSync.Load(keys[i])
-			if v == nil {
-				return nil, errors.New(fmt.Sprintf("Failed to add cookie, the value is empty: %v\n", v))
+			k := keys[i]
+			var v interface{}
+			var ok bool
+			for true {
+				v, ok = cookieSync.Load(k)
+				if ok {
+					break
+				}
 			}
+			// if v == nil {
+			// 	return nil, errors.New(fmt.Sprintf("Failed to add cookie, the value is empty: %v\n", v))
+			// }
 			req.AddCookie(&http.Cookie{Name: keys[i], Value: v.(string)})
 		}
 	}
@@ -80,6 +86,7 @@ func (g gsessionObject) GET(url string, headers map[string]string, redirect bool
 	if resp != nil {
 		defer resp.Body.Close()
 	}
+	defer resp.Body.Close()
 
 	cookies := resp.Cookies()
 	setCookie(cookies)
@@ -92,8 +99,19 @@ func (g gsessionObject) GET(url string, headers map[string]string, redirect bool
 		reader = resp.Body
 	}
 
-	b, err := ioutil.ReadAll(reader)
+	// defer func() {
+	// 	if err := recover(); err != nil {
+	// 		fmt.Printf("===========================%v\n", err)
+	// 	}
+	// }()
 
+	// var w http.ResponseWriter
+	// io.Copy(w, reader)
+
+	b, err := ioutil.ReadAll(reader)
+	if err != nil {
+		return nil, err
+	}
 	var r Response
 	r = &gsessionResponse{text: string(b), bytes: b, cookies: cookies, statusCode: resp.StatusCode}
 	return r, nil

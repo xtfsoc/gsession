@@ -42,5 +42,5 @@ func TestGsessionObject_POST(t *testing.T) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(resp.Content())
+	fmt.Println(resp.Text())
 }
