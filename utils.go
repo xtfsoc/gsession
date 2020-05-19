@@ -92,16 +92,17 @@ func requestBase(url string, mode string, headers map[string]string, body io.Rea
 		req.Header.Add(k, v)
 	}
 
-	// Set cookies, Determine if there is a local cookie
+	// Set cookies
+	// Determine if there is a local cookie
 	var keys []string
+	// Traverse all the keys of cookieSync and put them in the keys
 	f := func(k, v interface{}) bool {
 		keys = append(keys, k.(string))
 		return true
 	}
 	cookieSync.Range(f)
-
+	// local cookies, automatically add
 	if len(keys) > 0 {
-		// local cookies, automatically add
 		for i := 0; i < len(keys); i++ {
 			k := keys[i]
 			var v interface{}
@@ -123,7 +124,7 @@ func requestBase(url string, mode string, headers map[string]string, body io.Rea
 	if resp != nil {
 		defer resp.Body.Close()
 	}
-
+	// Add response cookie to cookieSync
 	cookies := resp.Cookies()
 	setCookie(cookies)
 
