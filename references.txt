@@ -31,6 +31,21 @@ https://haisum.github.io/2017/09/11/golang-ioutil-readall/
 https://zhuanlan.zhihu.com/p/27518650
 
 
+6 关于go mod 引包问题(如果引包错误大部分是go mod问题)
+go - net/http imports missing dot in first path element - Stack Overflow
+https://stackoverflow.com/questions/59350825/net-http-imports-missing-dot-in-first-path-element
+
+golang - go mod怎么引用同一个项目下面的子目录 - SegmentFault 思否
+https://segmentfault.com/q/1010000020590559
+
+go mod 怎么导入本地其它项目的包？ - 的回答 - SegmentFault 思否
+https://segmentfault.com/q/1010000020696591/a-1020000020700219
+
+Golang使用go.mod配置加载本地模块_golang_蜗牛的专栏-CSDN博客
+https://blog.csdn.net/zhouzme/article/details/90237864
+
+golang:项目迁移到 go mod 踩坑记 - V2EX
+https://www.v2ex.com/t/619023
 
 
 
