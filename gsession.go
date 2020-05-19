@@ -24,9 +24,6 @@ type gsessionFunc interface {
 	TRACE(url string, headers map[string]string, redirect bool, timeout ...time.Duration) (Response, error)
 }
 
-// Exported function with unexported return type
-// Inspection info: Reports exported functions with unexported return types.
-// Unexported types can be difficult to use when viewing documentation under go doc
 func Session() SessionObject {
 	// 新增session要清空COOKIEJ
 	var keys []string

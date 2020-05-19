@@ -34,7 +34,7 @@ func setCookie(c []*http.Cookie) {
 		// v: *http.cookie
 		// v.Value
 		// v.Domain
-		//cookiej[v.Name] = v.Value
+		// cookiej[v.Name] = v.Value
 		cookieSync.Store(v.Name, v.Value)
 	}
 }
@@ -52,6 +52,8 @@ func processTimeout(ts []time.Duration) (time.Duration, error) {
 // General request method
 func requestBase(url string, mode string, headers map[string]string, body io.Reader, redirect bool, timeouts []time.Duration) (Response, error) {
 	var c *http.Client
+
+	// Set redirect
 	if redirect {
 		c = &http.Client{}
 	} else {
@@ -64,9 +66,6 @@ func requestBase(url string, mode string, headers map[string]string, body io.Rea
 		}
 	}
 
-	// Process parameters
-	headers = processHeader(headers)
-
 	// Set timeout
 	timeout, err := processTimeout(timeouts)
 	if err != nil {
@@ -74,8 +73,8 @@ func requestBase(url string, mode string, headers map[string]string, body io.Rea
 	}
 	c.Timeout = timeout
 
-	if proxySync == "" {
-	} else {
+	// Set Proxy
+	if proxySync != "" {
 		ts := &http.Transport{Proxy: func(_ *http.Request) (*netUrl.URL, error) {
 			return netUrl.Parse(proxySync)
 		}}
@@ -88,11 +87,12 @@ func requestBase(url string, mode string, headers map[string]string, body io.Rea
 	}
 
 	// Set headers
+	headers = processHeader(headers)
 	for k, v := range headers {
 		req.Header.Add(k, v)
 	}
 
-	// Determine if there is a local cookie
+	// Set cookies, Determine if there is a local cookie
 	var keys []string
 	f := func(k, v interface{}) bool {
 		keys = append(keys, k.(string))
@@ -100,9 +100,7 @@ func requestBase(url string, mode string, headers map[string]string, body io.Rea
 	}
 	cookieSync.Range(f)
 
-	if len(keys) == 0 {
-
-	} else {
+	if len(keys) > 0 {
 		// local cookies, automatically add
 		for i := 0; i < len(keys); i++ {
 			k := keys[i]

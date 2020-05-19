@@ -1,6 +1,7 @@
 package gsession
 
 import (
+	"net/http"
 	"sync"
 )
 
@@ -10,6 +11,11 @@ var cookieSync sync.Map
 
 // Define cookie structure
 type cookie struct{}
+
+// undone: return all the cookies([]*http.Cookie) in the SessionObject
+func (c *cookie) Get() []*http.Cookie {
+	return nil
+}
 
 // Get all the cookies in the SessionObject
 func (c *cookie) GetMap() map[string]string {
