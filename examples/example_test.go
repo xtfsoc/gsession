@@ -12,7 +12,7 @@ import (
 
 func TestGsessionObject_GET(t *testing.T) {
 	session := gsession.Session()
-	session.Proxy.Update("http://127.0.0.1:8888")
+	//session.Proxy.Update("http://127.0.0.1:8888")
 	session.Cookie.Update(map[string]string{"name": "wanghui", "gender": "male"})
 
 	header := make(map[string]string)

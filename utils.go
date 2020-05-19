@@ -23,7 +23,7 @@ func processHeader(header map[string]string) map[string]string {
 	return header
 }
 
-// The response cookie is automatically added to the session
+// The response cookie is automatically added to the SessionObject
 func setCookie(c []*http.Cookie) {
 	for _, v := range c {
 		// v: *http.cookie

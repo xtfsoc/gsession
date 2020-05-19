@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-type session struct {
+type SessionObject struct {
 	Proxy  proxy
 	Cookie cookie
 	gsessionFunc
@@ -24,7 +24,7 @@ type gsessionFunc interface {
 // Exported function with unexported return type
 // Inspection info: Reports exported functions with unexported return types.
 // Unexported types can be difficult to use when viewing documentation under go doc
-func Session() session {
+func Session() SessionObject {
 	// 新增session要清空COOKIEJ
 	var keys []string
 	f := func(k, v interface{}) bool {
@@ -42,8 +42,8 @@ func Session() session {
 		ga = gsessionObject{}
 		return ga
 	}
-	// return session{proxy{}, cookie{}, sessionInit()}
-	return session{
+	// return SessionObject{proxy{}, cookie{}, sessionInit()}
+	return SessionObject{
 		Proxy:        proxy{},
 		Cookie:       cookie{},
 		gsessionFunc: sessionInit(),

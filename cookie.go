@@ -11,7 +11,7 @@ var cookieSync sync.Map
 // Define cookie structure
 type cookie struct{}
 
-// Get all the cookies in the session
+// Get all the cookies in the SessionObject
 func (c *cookie) GetMap() map[string]string {
 	var keys []string
 	j := make(map[string]string)
