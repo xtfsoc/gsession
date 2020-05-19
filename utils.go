@@ -50,7 +50,7 @@ func processTimeout(ts []time.Duration) (time.Duration, error) {
 }
 
 // General request method
-func requestBase(url string, mode string, headers map[string]string, body io.Reader, redirect bool, timeouts []time.Duration) (Response, error) {
+func requestHTTP(url string, mode string, headers map[string]string, body io.Reader, redirect bool, timeouts []time.Duration) (Response, error) {
 	var c *http.Client
 
 	// Set redirect
