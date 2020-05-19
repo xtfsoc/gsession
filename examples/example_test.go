@@ -84,3 +84,10 @@ func TestChaifen(t *testing.T) {
 	fmt.Println("dddd")
 	fmt.Println(result)
 }
+
+func TestS(t *testing.T) {
+	var s = " Get "
+	s = strings.Trim(s, " ")
+	s = strings.ToUpper(s)
+	fmt.Println(s)
+}

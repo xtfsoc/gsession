@@ -18,7 +18,10 @@ type gsessionFunc interface {
 	POST(url string, headers map[string]string, body io.Reader, redirect bool, timeout ...time.Duration) (Response, error)
 	PUT(url string, headers map[string]string, redirect bool, timeout ...time.Duration) (Response, error)
 	DELETE(url string, headers map[string]string, redirect bool, timeout ...time.Duration) (Response, error)
+	HEAD(url string, headers map[string]string, redirect bool, timeout ...time.Duration) (Response, error)
 	OPTIONS(url string, headers map[string]string, redirect bool, timeout ...time.Duration) (Response, error)
+	CONNECT(url string, headers map[string]string, redirect bool, timeout ...time.Duration) (Response, error)
+	TRACE(url string, headers map[string]string, redirect bool, timeout ...time.Duration) (Response, error)
 }
 
 // Exported function with unexported return type

@@ -1,8 +1,13 @@
 package gsession
 
 import (
+	"compress/gzip"
 	"errors"
+	"fmt"
+	"io"
+	"io/ioutil"
 	"net/http"
+	netUrl "net/url"
 	"strings"
 	"time"
 )
@@ -42,4 +47,104 @@ func processTimeout(ts []time.Duration) (time.Duration, error) {
 		return ts[0], nil
 	}
 	return 0 * time.Minute, errors.New("There are multiple timeout variable parameters, should be 1")
+}
+
+// General request method
+func requestBase(url string, mode string, headers map[string]string, body io.Reader, redirect bool, timeouts []time.Duration) (Response, error) {
+	var c *http.Client
+	if redirect {
+		c = &http.Client{}
+	} else {
+		c = &http.Client{
+			CheckRedirect: func(req *http.Request, via []*http.Request) error {
+				// handle redirect
+				// return errors.New("Disable redirects")
+				return http.ErrUseLastResponse
+			},
+		}
+	}
+
+	// Process parameters
+	headers = processHeader(headers)
+
+	// Set timeout
+	timeout, err := processTimeout(timeouts)
+	if err != nil {
+		return nil, err
+	}
+	c.Timeout = timeout
+
+	if proxySync == "" {
+	} else {
+		ts := &http.Transport{Proxy: func(_ *http.Request) (*netUrl.URL, error) {
+			return netUrl.Parse(proxySync)
+		}}
+		c.Transport = ts
+	}
+
+	req, err := http.NewRequest(mode, url, body)
+	if err != nil {
+		return nil, err
+	}
+
+	// Set headers
+	for k, v := range headers {
+		req.Header.Add(k, v)
+	}
+
+	// Determine if there is a local cookie
+	var keys []string
+	f := func(k, v interface{}) bool {
+		keys = append(keys, k.(string))
+		return true
+	}
+	cookieSync.Range(f)
+
+	if len(keys) == 0 {
+
+	} else {
+		// local cookies, automatically add
+		for i := 0; i < len(keys); i++ {
+			k := keys[i]
+			var v interface{}
+			var ok bool = false
+			for !ok {
+				v, ok = cookieSync.Load(k)
+			}
+			if v == nil {
+				return nil, errors.New(fmt.Sprintf("Failed to add cookie, the value is empty: %v\n", v))
+			}
+			req.AddCookie(&http.Cookie{Name: keys[i], Value: v.(string)})
+		}
+	}
+
+	resp, err := c.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	if resp != nil {
+		defer resp.Body.Close()
+	}
+
+	cookies := resp.Cookies()
+	setCookie(cookies)
+
+	var reader io.ReadCloser
+	var encode = resp.Header.Get("Content-Encoding")
+	if strings.Contains(strings.ToLower(encode), "gzip") {
+		reader, err = gzip.NewReader(resp.Body)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		reader = resp.Body
+	}
+
+	b, err := ioutil.ReadAll(reader)
+	if err != nil {
+		return nil, err
+	}
+	var r Response
+	r = &gsessionResponse{text: string(b), bytes: b, cookies: cookies, statusCode: resp.StatusCode}
+	return r, nil
 }
