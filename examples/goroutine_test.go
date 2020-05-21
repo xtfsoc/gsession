@@ -38,7 +38,6 @@ func requestGession(sign int) {
 		}
 		_, err = fmt.Printf("sign: %d, statusCode: %d, text: %s\n", sign, resp.StatusCode(), resp.Text()[100:170])
 	}
-
 }
 
 func requestHTTP(sign int) {
