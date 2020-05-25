@@ -12,7 +12,7 @@ import (
 
 func TestGsessionObject_GET(t *testing.T) {
 	session := gsession.Session()
-	session.Proxy.Update("http://127.0.0.1:8888")
+	//session.Proxy.Update("http://127.0.0.1:8888")
 	session.Cookie.Update(map[string]string{"name": "wanghui", "gender": "male"})
 
 	header := make(map[string]string)
@@ -43,4 +43,51 @@ func TestGsessionObject_POST(t *testing.T) {
 		log.Fatal(err)
 	}
 	fmt.Println(resp.Text())
+}
+
+func TestNetHttp(t *testing.T) {
+	fmt.Println("OPOPOP")
+	n, err := division(1, 0)
+	if err != nil {
+		fmt.Printf("捕获到[001]: %v\n", err)
+	}
+	fmt.Println(n)
+	fmt.Println("assssssssas")
+}
+
+func division(x, y int) (result int, err error) {
+	defer func() {
+		if e := recover(); e != nil {
+			// 这句话的作用是: e是interface, 需要转成error类型
+			// 然后把参数err赋值e, 最后统一return出去
+			err = e.(error)
+		}
+	}()
+	result = x / y
+	return result, nil
+}
+
+func TestChaifen(t *testing.T) {
+	fmt.Println("aaaa")
+	defer func() {
+		if e := recover(); e != nil {
+			// 这句话的作用是: e是interface, 需要转成error类型
+			// 然后把参数err赋值e, 最后统一return出去
+			fmt.Println("bbbb")
+			fmt.Println(e)
+		}
+	}()
+	fmt.Println("cccc")
+	x := 9
+	y := 0
+	result := x / y
+	fmt.Println("dddd")
+	fmt.Println(result)
+}
+
+func TestS(t *testing.T) {
+	var s = " Get "
+	s = strings.Trim(s, " ")
+	s = strings.ToUpper(s)
+	fmt.Println(s)
 }

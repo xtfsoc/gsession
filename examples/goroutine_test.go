@@ -22,6 +22,7 @@ func TestGoutineGession(t *testing.T) {
 func requestGession(sign int) {
 	for {
 		session := gsession.Session()
+		// session.Proxy.Update("http://127.0.0.1:8888")
 		session.Cookie.Update(map[string]string{"name": "wanghui", "age": "22"})
 
 		header := make(map[string]string)
@@ -37,7 +38,6 @@ func requestGession(sign int) {
 		}
 		_, err = fmt.Printf("sign: %d, statusCode: %d, text: %s\n", sign, resp.StatusCode(), resp.Text()[100:170])
 	}
-
 }
 
 func requestHTTP(sign int) {

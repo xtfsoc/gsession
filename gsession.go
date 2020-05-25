@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-type session struct {
+type SessionObject struct {
 	Proxy  proxy
 	Cookie cookie
 	gsessionFunc
@@ -18,13 +18,13 @@ type gsessionFunc interface {
 	POST(url string, headers map[string]string, body io.Reader, redirect bool, timeout ...time.Duration) (Response, error)
 	PUT(url string, headers map[string]string, redirect bool, timeout ...time.Duration) (Response, error)
 	DELETE(url string, headers map[string]string, redirect bool, timeout ...time.Duration) (Response, error)
+	HEAD(url string, headers map[string]string, redirect bool, timeout ...time.Duration) (Response, error)
 	OPTIONS(url string, headers map[string]string, redirect bool, timeout ...time.Duration) (Response, error)
+	CONNECT(url string, headers map[string]string, redirect bool, timeout ...time.Duration) (Response, error)
+	TRACE(url string, headers map[string]string, redirect bool, timeout ...time.Duration) (Response, error)
 }
 
-// Exported function with unexported return type
-// Inspection info: Reports exported functions with unexported return types.
-// Unexported types can be difficult to use when viewing documentation under go doc
-func Session() session {
+func Session() SessionObject {
 	// 新增session要清空COOKIEJ
 	var keys []string
 	f := func(k, v interface{}) bool {
@@ -42,8 +42,8 @@ func Session() session {
 		ga = gsessionObject{}
 		return ga
 	}
-	// return session{proxy{}, cookie{}, sessionInit()}
-	return session{
+	// return SessionObject{proxy{}, cookie{}, sessionInit()}
+	return SessionObject{
 		Proxy:        proxy{},
 		Cookie:       cookie{},
 		gsessionFunc: sessionInit(),
